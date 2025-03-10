@@ -14,7 +14,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
-                var tileIndex = GetTileIndex(new int[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)});
+                var tileIndex = GetTileIndex(new TerrainType[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)});
 				this.SetCell(new Vector2I(x, y), 2, tileIndex);
 			}
 	}
@@ -24,7 +24,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	{
 	}
 
-	private Vector2I GetTileIndex(int[] neighbours)
+	private Vector2I GetTileIndex(TerrainType[] neighbours)
 	{
         var offsets = new (int, int)[] {
             (2, 0),
@@ -45,7 +45,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
             (3, 0),
         };
 
-        var index = (neighbours[0] != 0 ? 1 : 0) + (neighbours[1] != 0 ? 1 : 0)*2 + (neighbours[2] != 0 ? 1 : 0)*4 + (neighbours[3] != 0 ? 1 : 0)*8;
+        var index = (neighbours[0] != TerrainType.Water ? 1 : 0) + (neighbours[1] != TerrainType.Water ? 1 : 0)*2 + (neighbours[2] != TerrainType.Water ? 1 : 0)*4 + (neighbours[3] != TerrainType.Water ? 1 : 0)*8;
         var result = offsets[index];          
         return new Vector2I(result.Item1, result.Item2);
 

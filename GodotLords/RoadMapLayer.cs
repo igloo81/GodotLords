@@ -13,10 +13,16 @@ public partial class RoadMapLayer : TileMapLayer
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
-				if (map.Get(x, y) == 2)	// todo enums for types
-				{					
-		            //var tileIndex = GetTileIndex(map, x, y);
-					var tileIndex = new Vector2I(4, 1);	// We only use the tile that covers the full 32x32 sprite
+				var tileIndex = map.Get(x, y) switch 
+				{
+					TerrainType.Road => new Vector2I(4, 1),
+					TerrainType.Forest => new Vector2I(9, 0),
+					TerrainType.Hill => new Vector2I(9, 1),
+					TerrainType.Mountain => new Vector2I(9, 2),
+					_ => new Vector2I(-1,-1)
+				};
+				if (tileIndex.X > 0)	// todo...
+				{
 					this.SetCell(new Vector2I(x, y), 0, tileIndex);
 				}
 			}
@@ -26,7 +32,7 @@ public partial class RoadMapLayer : TileMapLayer
 	private Vector2I GetTileIndex(Map map, int x, int y)
 	{
 		var neighbours = new[] { map.Get(x,y-1), map.Get(x+1,y), map.Get(x,y+1), map.Get(x-1,y)};
-        var index = (neighbours[0] == 2 ? 1 : 0) + (neighbours[1] == 2 ? 1 : 0)*2 + (neighbours[2] == 2 ? 1 : 0)*4 + (neighbours[3] == 2 ? 1 : 0)*8;
+        var index = (neighbours[0] == TerrainType.Road ? 1 : 0) + (neighbours[1] == TerrainType.Road ? 1 : 0)*2 + (neighbours[2] == TerrainType.Road ? 1 : 0)*4 + (neighbours[3] == TerrainType.Road ? 1 : 0)*8;
 		var tileX = index % 4;
 		var tileY = index / 4;
         return new Vector2I(tileX+5, tileY);
