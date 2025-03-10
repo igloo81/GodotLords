@@ -15,18 +15,20 @@ public partial class RoadMapLayer : TileMapLayer
 			{
 				if (map.Get(x, y) == 2)	// todo enums for types
 				{					
-		            var tileIndex = GetTileIndex(new[] { map.Get(x,y-1), map.Get(x+1,y), map.Get(x,y+1), map.Get(x-1,y)});
+		            //var tileIndex = GetTileIndex(map, x, y);
+					var tileIndex = new Vector2I(4, 1);	// We only use the tile that covers the full 32x32 sprite
 					this.SetCell(new Vector2I(x, y), 0, tileIndex);
 				}
 			}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	private Vector2I GetTileIndex(int[] neighbours)
+	// Returns the roads that are centered in the sprite instead of a full 32x32 sprite
+	private Vector2I GetTileIndex(Map map, int x, int y)
 	{
+		var neighbours = new[] { map.Get(x,y-1), map.Get(x+1,y), map.Get(x,y+1), map.Get(x-1,y)};
         var index = (neighbours[0] == 2 ? 1 : 0) + (neighbours[1] == 2 ? 1 : 0)*2 + (neighbours[2] == 2 ? 1 : 0)*4 + (neighbours[3] == 2 ? 1 : 0)*8;
-		var x = index % 4;
-		var y = index / 4;
-        return new Vector2I(x+5, y);
+		var tileX = index % 4;
+		var tileY = index / 4;
+        return new Vector2I(tileX+5, tileY);
 	}
 }
