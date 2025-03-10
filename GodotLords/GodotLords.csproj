@@ -5,10 +5,4 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-
-
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <None Update="Resources/MapFromForum.png" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="Resources/Map.png" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
 </Project>
