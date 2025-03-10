@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://djr88g0i2nkr8"]
+[gd_scene load_steps=8 format=3 uid="uid://djr88g0i2nkr8"]
 
 [ext_resource type="Texture2D" uid="uid://drnnwdgfqjxib" path="res://Resources/Terrain.png" id="1_c5gec"]
+[ext_resource type="Texture2D" uid="uid://bmpykf6tk68wv" path="res://Resources/Terrain_3.png" id="2_7avp5"]
 [ext_resource type="Script" path="res://TileMapLayer.cs" id="2_rewdk"]
 [ext_resource type="Script" path="res://Camera2d.cs" id="3_7llwp"]
 
@@ -100,9 +101,40 @@ texture_region_size = Vector2i(32, 32)
 6:9/0 = 0
 8:9/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uch7r"]
+texture = ExtResource("2_7avp5")
+separation = Vector2i(1, 1)
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_usutw"]
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_qv85k")
+sources/2 = SubResource("TileSetAtlasSource_uch7r")
 
 [node name="Node2D" type="Node2D"]
 

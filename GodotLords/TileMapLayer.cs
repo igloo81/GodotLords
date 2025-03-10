@@ -13,7 +13,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
-				this.SetCell(new Vector2I(x, y), 0, GetTileIndex(new int[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)}));
+                var tileIndex = GetTileIndex(new int[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)});
+                Console.WriteLine(tileIndex);
+				this.SetCell(new Vector2I(x, y), 2, tileIndex);
 			}
 	}
 
@@ -43,20 +45,25 @@ public partial class TileMapLayer : Godot.TileMapLayer
             (3, 0),
         };
 
-        if (neighbours.All(_ => _ == 0 || _ == 1))
-        {
-            var index = neighbours[0] + neighbours[1]*2 + neighbours[2]*4 + neighbours[3]*8;
-	    	var result = offsets[index];          
-            return new Vector2I(result.Item1, result.Item2);
-        } else if (neighbours.All(_ => _ == 1 || _ == 2))
-        {
-            var index = neighbours[0]-1 + (neighbours[1]-1)*2 + (neighbours[2]-1)*4 + (neighbours[3]-1) *8;
-            var x = index % 4;
-            var y = index / 4;
-	    	var result = offsets[index];          
-            return new Vector2I(x+5, y);
-        } else
-            return new Vector2I(4, 1);
+        var index = (neighbours[0] != 0 ? 1 : 0) + (neighbours[1] != 0 ? 1 : 0)*2 + (neighbours[2] != 0 ? 1 : 0)*4 + (neighbours[3] != 0 ? 1 : 0)*8;
+        var result = offsets[index];          
+        return new Vector2I(result.Item1, result.Item2);
+
+
+        // if (neighbours.All(_ => _ == 0 || _ == 1))
+        // {
+        //     var index = neighbours[0] + neighbours[1]*2 + neighbours[2]*4 + neighbours[3]*8;
+	    // 	var result = offsets[index];          
+        //     return new Vector2I(result.Item1, result.Item2);
+        // } else if (neighbours.All(_ => _ == 1 || _ == 2))
+        // {
+        //     var index = neighbours[0]-1 + (neighbours[1]-1)*2 + (neighbours[2]-1)*4 + (neighbours[3]-1) *8;
+        //     var x = index % 4;
+        //     var y = index / 4;
+	    // 	var result = offsets[index];          
+        //     return new Vector2I(x+5, y);
+        // } else
+        //     return new Vector2I(4, 1);
 	}
 }
 
