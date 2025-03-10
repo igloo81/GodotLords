@@ -7,14 +7,13 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        var map = Map.FromImage("resources/map.png", water:Color.FromHtml("#0053c9"), road: Color.FromHtml("#555555"));
-        var map2 = Map.FromImage("resources/mapFromForum.png", water:Color.FromHtml("#ff009eba"), road: Color.FromHtml("#555555"));
+        var map = Map.FromImage("Resources/map.png", water:Color.FromHtml("#0053c9"), road: Color.FromHtml("#555555"));
+        var map2 = Map.FromImage("Resources/mapFromForum.png", water:Color.FromHtml("#ff009eba"), road: Color.FromHtml("#555555"));
 
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
                 var tileIndex = GetTileIndex(new int[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)});
-                Console.WriteLine(tileIndex);
 				this.SetCell(new Vector2I(x, y), 2, tileIndex);
 			}
 	}
@@ -65,32 +64,4 @@ public partial class TileMapLayer : Godot.TileMapLayer
         // } else
         //     return new Vector2I(4, 1);
 	}
-}
-
-public record Map(int[][] tiles)
-{
-    public int Height { get; set; }
-    public int Width { get; set; }
-    public int Get(int x, int y) => tiles[y][x];
-
-    public static Map FromImage(string path, Color water, Color road)
-    {
-        var image = Image.LoadFromFile(path);
-        var width = image.GetSize()[0];
-        var height = image.GetSize()[1];
-        var tiles = new int[height][];
-        for (var y = 0; y < height; y++)
-        {
-            tiles[y] = new int[width];
-            for (var x = 0; x < width; x++)
-            {
-                var color = image.GetPixel(x, y);
-                var isWater = color == water; 
-                var isRoad = color == road;
-                tiles[y][x] = isWater ? 0 : (isRoad ? 2 : 1);
-            }
-        }
-        
-        return new Map(tiles){ Height = height, Width = width };
-    }
 }
