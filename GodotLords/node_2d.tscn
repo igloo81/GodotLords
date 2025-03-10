@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://drnnwdgfqjxib" path="res://Resources/Terrain.png" id="1_c5gec"]
 [ext_resource type="Texture2D" uid="uid://bmpykf6tk68wv" path="res://Resources/Terrain_3.png" id="2_7avp5"]
-[ext_resource type="Script" path="res://TileMapLayer.cs" id="2_rewdk"]
-[ext_resource type="Script" path="res://Camera2d.cs" id="3_7llwp"]
-[ext_resource type="Script" path="res://RoadMapLayer.cs" id="4_h7wgf"]
+[ext_resource type="Script" path="res://MapView/TerrainMapLayer.cs" id="3_43xkp"]
+[ext_resource type="Script" path="res://MapView/FeaturesMapLayer.cs" id="4_qkhbp"]
+[ext_resource type="Script" path="res://MapView/MapCamera.cs" id="5_t73vm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qv85k"]
 texture = ExtResource("1_c5gec")
@@ -199,16 +199,16 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_bdxu0")
 
-[node name="Node2D" type="Node2D"]
+[node name="Map" type="Node2D"]
 
-[node name="TerrainMapLayer" type="TileMapLayer" parent="."]
+[node name="TerrainLayer" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_usutw")
-script = ExtResource("2_rewdk")
+script = ExtResource("3_43xkp")
 
-[node name="RoadMapLayer" type="TileMapLayer" parent="."]
+[node name="FeaturesLayer" type="TileMapLayer" parent="."]
 position = Vector2(16, 16)
 tile_set = SubResource("TileSet_w02nv")
-script = ExtResource("4_h7wgf")
+script = ExtResource("4_qkhbp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("3_7llwp")
+script = ExtResource("5_t73vm")

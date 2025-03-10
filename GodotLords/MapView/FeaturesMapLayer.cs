@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
-public partial class RoadMapLayer : TileMapLayer
+//namespace GodotLords.MapView;
+
+public partial class FeaturesMapLayer : TileMapLayer
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

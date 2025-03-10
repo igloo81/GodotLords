@@ -2,7 +2,9 @@ using Godot;
 using System;
 using System.Linq;
 
-public partial class TileMapLayer : Godot.TileMapLayer
+//namespace GodotLords.MapView;
+
+public partial class TerrainMapLayer : Godot.TileMapLayer
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

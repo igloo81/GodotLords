@@ -1,7 +1,9 @@
 using Godot;
 using System;
 
-public partial class Camera2d : Camera2D
+//namespace GodotLords.MapView;
+
+public partial class MapCamera : Camera2D
 {
 	private Vector2 zoomTarget;
 
