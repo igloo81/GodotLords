@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bb5hqfhudxhpw"]
+
+[ext_resource type="FontFile" uid="uid://bawaef7814dft" path="res://Resources/EagleLake-Regular.ttf" id="1_jb6u0"]
+
+[resource]
+default_font = ExtResource("1_jb6u0")
