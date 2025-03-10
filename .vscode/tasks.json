@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "build",
+          "type": "shell",
+          "command": "dotnet build",  // Or MSBuild if needed
+          "args": [
+              "${workspaceFolder}/GodotLords.sln"  // Path to your solution or project file
+          ],
+          "problemMatcher": "$msCompile",  // This tells VSCode to listen for build output errors
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          },
+          "isBackground": false  // Ensures the task completes before continuing
+      }
+  ]
+}

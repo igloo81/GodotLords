@@ -13,6 +13,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
+            "preLaunchTask": "dotnet: build"
         }    
     ]
 }

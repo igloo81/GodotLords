@@ -10,13 +10,20 @@ public partial class RoadMapLayer : TileMapLayer
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
-                var tileIndex = new Vector2I(4, 0);
-				this.SetCell(new Vector2I(x, y), 0, tileIndex);
+				if (map.Get(x, y) == 2)	// todo enums for types
+				{					
+		            var tileIndex = GetTileIndex(new[] { map.Get(x-1,y-1), map.Get(x,y-1), map.Get(x-1,y), map.Get(x,y)});
+					this.SetCell(new Vector2I(x, y), 0, tileIndex);
+				}
 			}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private Vector2I GetTileIndex(int[] neighbours)
 	{
+        var index = (neighbours[0] == 2 ? 1 : 0) + (neighbours[1] == 2 ? 1 : 0)*2 + (neighbours[2] == 2 ? 1 : 0)*4 + (neighbours[3] == 2 ? 1 : 0)*8;
+		var x = index % 4;
+		var y = index / 4;
+        return new Vector2I(x+5, y);
 	}
 }

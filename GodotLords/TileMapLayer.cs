@@ -56,10 +56,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
         //     return new Vector2I(result.Item1, result.Item2);
         // } else if (neighbours.All(_ => _ == 1 || _ == 2))
         // {
-        //     var index = neighbours[0]-1 + (neighbours[1]-1)*2 + (neighbours[2]-1)*4 + (neighbours[3]-1) *8;
-        //     var x = index % 4;
-        //     var y = index / 4;
-	    // 	var result = offsets[index];          
         //     return new Vector2I(x+5, y);
         // } else
         //     return new Vector2I(4, 1);
