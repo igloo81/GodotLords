@@ -203,6 +203,7 @@ tile_set = SubResource("TileSet_usutw")
 script = ExtResource("2_rewdk")
 
 [node name="RoadMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(16, 16)
 tile_set = SubResource("TileSet_w02nv")
 script = ExtResource("4_h7wgf")
 

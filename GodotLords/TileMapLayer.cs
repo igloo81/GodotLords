@@ -7,8 +7,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        var map = Map.FromImage("Resources/map.png", water:Color.FromHtml("#0053c9"), road: Color.FromHtml("#555555"));
-        var map2 = Map.FromImage("Resources/mapFromForum.png", water:Color.FromHtml("#ff009eba"), road: Color.FromHtml("#555555"));
+        var map = Map.FromImage("Resources/map.png", 2, water:Color.FromHtml("#0053c9"), road: Color.FromHtml("#555555"));
+        //var map = Map.FromImage("Resources/mapFromForum.png", 2, water:Color.FromHtml("#ff009eba"), road: Color.FromHtml("#555555"));
 
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
