@@ -7,4 +7,5 @@ public enum TerrainType
     Hill,
     Mountain,
     Swamp
+    // Tower, city, temple
 }
