@@ -12,6 +12,7 @@ public partial class FeaturesMapLayer : TileMapLayer
         //var map = Map.FromImage("Resources/map.png", 2, water:Color.FromHtml("#0053c9"), road: Color.FromHtml("#555555"));
         //var map = Map.FromImage("Resources/mapFromForum.png", 2, water:Color.FromHtml("#ff009eba"), road: Color.FromHtml("#555555"));
 
+		
 		for (var x = 1; x < map.Width; x++)
 			for (var y = 1; y < map.Height; y++)
 			{
@@ -28,6 +29,7 @@ public partial class FeaturesMapLayer : TileMapLayer
 					this.SetCell(new Vector2I(x, y), 0, tileIndex);
 				}
 			}
+			
 	}
 
 	// Returns the roads that are centered in the sprite instead of a full 32x32 sprite
