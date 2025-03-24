@@ -3,9 +3,12 @@ public enum TerrainType
     Water,
     Grass,
     Road,
+    Bridge,
     Forest,
     Hill,
     Mountain,
-    Swamp
+    Swamp,
+    City,
+    Shore
     // Tower, city, temple
 }
