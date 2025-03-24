@@ -41,14 +41,21 @@ public class Unit
 {
     public int Upkeep { get; set; }
     int Strength { get; set;}
-    int Moves { get; set; }
+    int MovesMaximum { get; set; }
+    int MovesLeft { get; set; }
+
+    public static int GetMovementCosts(UnitTypeEnum unitType, TerrainType terrainType)
+    {
+        var terrainIndex = Array.IndexOf(TerrainTypes, terrainType);
+        return movementSpeeds[unitType][terrainIndex];
+    }
 
     // city / player
 
-    public static TerrainType[] TerrainTypes = new TerrainType[] { 
+    private static TerrainType[] TerrainTypes = new TerrainType[] { 
         TerrainType.Road, TerrainType.Bridge, TerrainType.Water, TerrainType. Shore, TerrainType.Forest, 
         TerrainType.Hill, TerrainType.Mountain, TerrainType.Grass, TerrainType.Swamp, TerrainType.City};
-    public static Dictionary<UnitTypeEnum, int[]> movementSpeeds = new Dictionary<UnitTypeEnum, int[]>
+    private static Dictionary<UnitTypeEnum, int[]> movementSpeeds = new Dictionary<UnitTypeEnum, int[]>
     {
         { UnitTypeEnum.Giant, new int[] { 1, 1, -1, -1, 5, 4, -1, 2, 5, 1 } },
         { UnitTypeEnum.Dwarf, new int[] { 1, 1, -1, -1, 6, 3, -1, 2, 6, 1 } },
