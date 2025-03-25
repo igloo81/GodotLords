@@ -17,6 +17,13 @@ public static class MapData
         ));
 }
 
+public class UnitsOnMap
+{
+    public List<UnitOnMap> Units { get; set; }
+}
+
+public record UnitOnMap(int Row, int Column, Unit Unit);        // todo reference to unit, not unit itself
+
 public enum UnitTypeEnum    // should be in a data file? Well, some are special and need to be known, so nope
 {
     LightInfantry,
@@ -36,7 +43,6 @@ public enum UnitTypeEnum    // should be in a data file? Well, some are special 
     Dragon,
     Knight
 }
-
 public class Unit
 {
     public int Upkeep { get; set; }
