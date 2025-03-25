@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Menu : Control
 {
@@ -21,7 +22,21 @@ public partial class Menu : Control
 
 	public void OnStartPressed()
 	{
-		GetTree().ChangeSceneToFile("res://node_2d.tscn");
+		var mapScene = (MapNode)((PackedScene)ResourceLoader.Load("res://node_2d.tscn")).Instantiate();
+		var map = Map.FromImage(
+			"Resources/map.png", 2, 
+			new Dictionary<Color, TerrainType>{
+				{ Color.FromHtml("#0053c9"), TerrainType.Water},
+				{ Color.FromHtml("#217725"), TerrainType.Grass},
+				{ Color.FromHtml("#555555"), TerrainType.Road},
+				{ Color.FromHtml("#9a5600"), TerrainType.Hill},
+				{ Color.FromHtml("#693500"), TerrainType.Mountain},
+				{ Color.FromHtml("#005500"), TerrainType.Forest},
+			}
+			);
+		mapScene.GameData = new GameData() { Map = map };
+		GetTree().Root.AddChild(mapScene);
+		GetTree().CurrentScene = mapScene;	// todo does this keep adding extra scenes?
 	}
 
 	public void OnQuitPressed()
