@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public static class MapData
+public class MapData
 {
     public static Lazy<Map> GameMap = new Lazy<Map>(() => Map.FromImage(
         "Resources/map.png", 2, 
@@ -15,14 +15,15 @@ public static class MapData
             { Color.FromHtml("#005500"), TerrainType.Forest},
         }
         ));
+
+    public List<UnitOnMap> UnitsOnMap { get; set; }
+    public List<Unit> Units { get; set; }
+    public List<City> Cities { get; set; }
 }
 
-public class UnitsOnMap
-{
-    public List<UnitOnMap> Units { get; set; }
-}
+public record City(string Name);    // units to produce, row, column, defense etc.
 
-public record UnitOnMap(int Row, int Column, Unit Unit);        // todo reference to unit, not unit itself
+public record UnitOnMap(int Row, int Column, string Id);        // todo reference to unit, not unit itself
 
 public enum UnitTypeEnum    // should be in a data file? Well, some are special and need to be known, so nope
 {
@@ -45,6 +46,7 @@ public enum UnitTypeEnum    // should be in a data file? Well, some are special 
 }
 public class Unit
 {
+    string Id { get; set; }
     public int Upkeep { get; set; }
     int Strength { get; set;}
     int MovesMaximum { get; set; }
