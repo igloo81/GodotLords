@@ -29,10 +29,26 @@ public partial class UnitsMapLayer : TileMapLayer
 
     private Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch
     {
+        UnitTypeEnum.LightInfantry => new Vector2I(0, 0),
+        UnitTypeEnum.HeavyInfantry => new Vector2I(1, 0),
+        UnitTypeEnum.Giant => new Vector2I(2, 0),
         UnitTypeEnum.Archer => new Vector2I(3, 0),
-        UnitTypeEnum.Knight => new Vector2I(3, 3),
-        UnitTypeEnum.Demon => new Vector2I(3, 2),
+
+        UnitTypeEnum.WolfRider => new Vector2I(0, 1),
+        UnitTypeEnum.Cavalry => new Vector2I(1, 1),
+        UnitTypeEnum.Pegasus => new Vector2I(2, 1),
+        UnitTypeEnum.Griffin => new Vector2I(3, 1),
+
         UnitTypeEnum.Dwarf => new Vector2I(0, 2),
+        UnitTypeEnum.Navy => new Vector2I(1, 2),
+        UnitTypeEnum.Ghost => new Vector2I(2, 2),
+        UnitTypeEnum.Demon => new Vector2I(3, 2),
+
+        UnitTypeEnum.Devil => new Vector2I(0, 3),
+        UnitTypeEnum.Wizard => new Vector2I(1, 3),
+        UnitTypeEnum.Dragon => new Vector2I(2, 3),
+        UnitTypeEnum.Knight => new Vector2I(3, 3),
+
         _ => throw new NotImplementedException()
     };
 

@@ -10,8 +10,8 @@ public partial class MapCamera : Camera2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.MoveLocalX(32*50);
-		this.MoveLocalY(32*50);
+		this.MoveLocalX(10*50);
+		this.MoveLocalY(10*50);
 		zoomTarget = Zoom;
 	}
 
