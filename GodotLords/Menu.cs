@@ -23,7 +23,16 @@ public partial class Menu : Control
 
 	public void OnStartPressed()
     {
+        var gameData = CreateTestGameData();
         var mapScene = (MapNode)((PackedScene)ResourceLoader.Load("res://node_2d.tscn")).Instantiate();
+        mapScene.GameData = gameData;
+        GetTree().Root.AddChild(mapScene);
+        GetTree().CurrentScene = mapScene;  // todo does this keep adding extra scenes?
+		GetTree().Root.RemoveChild(this);
+    }
+
+    private static GameData CreateTestGameData()
+    {
         var map = Map.FromImage(
             "Resources/map.png", 2,
             new Dictionary<Color, TerrainType>{
@@ -49,15 +58,15 @@ public partial class Menu : Control
 
         AddOneOfEachUnitType(units, unitsOnMap);
 
-        mapScene.GameData = new GameData()
+        var gameData = new GameData()
         {
             Map = map,
             Units = units,
             UnitsOnMap = unitsOnMap
         };
-        GetTree().Root.AddChild(mapScene);
-        GetTree().CurrentScene = mapScene;  // todo does this keep adding extra scenes?
+        return gameData;
     }
+
 
     private static void AddOneOfEachUnitType(List<Unit> units, Dictionary<Vector2I, string[]> unitsOnMap)
     {
