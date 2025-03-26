@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public class GameData
@@ -8,6 +9,17 @@ public class GameData
     public Dictionary<Vector2I, string[]> UnitsOnMap { get; set; }
     public List<Unit> Units { get; set; }
     public List<City> Cities { get; set; }
+
+    public IEnumerable<Unit> GetUnits(string[] ids)
+    {
+        foreach (var id in ids)
+        {
+            var unit = Units.FirstOrDefault(_ => _.Id == id);
+            if (unit == null)
+                throw new NotImplementedException($"can't find unit with id {id}");
+            yield return unit;
+        }
+    }
 }
 
 public record City(string Name);    // units to produce, row, column, defense etc.

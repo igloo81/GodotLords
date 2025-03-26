@@ -16,8 +16,9 @@ public partial class UnitsMapLayer : TileMapLayer
         {
             var position = unitOnMap.Key;
             var unitIds = unitOnMap.Value;
-            var unit = gameData.Units.First(_ => _.Id == unitIds[0]);
-            this.SetCell(position, 0, GetOffsetInTileSheet(unit.unitTypeEnum));
+            var units = gameData.GetUnits(unitIds);
+            var unitTypeToShow = GetUnitTypeToShow(units.Select(_ => _.unitTypeEnum).ToArray());
+            this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));
         }
 
         // Create a selection rectangle
@@ -51,6 +52,15 @@ public partial class UnitsMapLayer : TileMapLayer
 
         _ => throw new NotImplementedException()
     };
+
+    private UnitTypeEnum GetUnitTypeToShow(UnitTypeEnum[] unitTypes)
+    {
+
+        if (unitTypes.Length == 0)
+            throw new Exception($"Can't determine which unit to show if not unitTypes are passed");
+
+         return unitTypes.OrderByDescending(_ => GetOffsetInTileSheet(_).X + GetOffsetInTileSheet(_).Y * 3).First(); // todo compute twice :-)
+    }
 
     // This function is called when you click on the screen.
     public override void _Input(InputEvent @event)
