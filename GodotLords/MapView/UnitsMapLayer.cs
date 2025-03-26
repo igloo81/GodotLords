@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class UnitsMapLayer : TileMapLayer
+public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set of node2ds
 {
     private Vector2I selectedCell = new Vector2I(-1, -1);
     private ColorRect selectionRectangle;
@@ -23,7 +23,7 @@ public partial class UnitsMapLayer : TileMapLayer
     {
 
         selectionRectangle = new ColorRect();
-        selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // Semi-transparent yellow
+        selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // todo move the selection rectangle outside of this class
         AddChild(selectionRectangle);
         selectionRectangle.Visible = false;
     }
@@ -32,7 +32,7 @@ public partial class UnitsMapLayer : TileMapLayer
     {
         var units = gameData.GetUnits(unitIds);
         var unitTypeToShow = GetUnitTypeToShow(units.Select(_ => _.unitTypeEnum).ToArray());
-        this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));
+        this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));    // todo show flag
     }
 
     private Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch
