@@ -6,7 +6,7 @@ using GodotLords.Engine;
 
 namespace GodotLords.MapView;
 
-public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set of node2ds
+public partial class UnitsMapLayer : TileMapLayer, IGameCommandHandler    // todo this should be a set of node2ds
 {
     private Vector2I selectedCell = new Vector2I(-1, -1);
     private ColorRect selectionRectangle;
@@ -34,6 +34,20 @@ public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set
         AddChild(selectionRectangle);
         selectionRectangle.Visible = false;
     }
+    
+	public void HandleGameCommand(IGameCommand gameCommand)
+	{
+        switch (gameCommand)
+        {
+            case MoveArmy move:     // should be enriched in gameData with units etc? Yeah, I do need them here :-)
+                RemoveArmyOnMap(move.From);
+                ShowArmyOnMap(move.To);
+                break;
+
+            case MovePartOfArmy movePart: 
+                break;
+        }
+	}
 
     private void RemoveArmyOnMap(Vector2I position)
     {
