@@ -5,27 +5,34 @@ using System.Linq;
 
 public partial class UnitsMapLayer : TileMapLayer
 {
-    private Vector2I _selectedCell = new Vector2I(-1, -1);
-    private ColorRect _selectionRect;
+    private Vector2I selectedCell = new Vector2I(-1, -1);
+    private ColorRect selectionRectangle;
+    private GameData gameData;
 
     public override void _Ready()
     {
-        var gameData = ((MapNode)GetParent()).GameData;
+        this.gameData = ((MapNode)GetParent()).GameData;
 
-        foreach (var unitOnMap in gameData.UnitsOnMap)
-        {
-            var position = unitOnMap.Key;
-            var unitIds = unitOnMap.Value;
-            var units = gameData.GetUnits(unitIds);
-            var unitTypeToShow = GetUnitTypeToShow(units.Select(_ => _.unitTypeEnum).ToArray());
-            this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));
-        }
+        foreach (var unitOnMap in gameData.UnitsOnMap)  // todo accessing these objects async...
+            ShowUnitOnMap(unitOnMap.Key, unitOnMap.Value);
 
-        // Create a selection rectangle
-        _selectionRect = new ColorRect();
-        _selectionRect.Color = new Color(1, 1, 0, 0.3f); // Semi-transparent yellow
-        AddChild(_selectionRect);
-        _selectionRect.Visible = false;
+        InitializeSelectionRectangle();
+    }
+
+    private void InitializeSelectionRectangle()
+    {
+
+        selectionRectangle = new ColorRect();
+        selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // Semi-transparent yellow
+        AddChild(selectionRectangle);
+        selectionRectangle.Visible = false;
+    }
+
+    private void ShowUnitOnMap(Vector2I position, string[] unitIds)
+    {
+        var units = gameData.GetUnits(unitIds);
+        var unitTypeToShow = GetUnitTypeToShow(units.Select(_ => _.unitTypeEnum).ToArray());
+        this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));
     }
 
     private Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch
@@ -82,7 +89,7 @@ public partial class UnitsMapLayer : TileMapLayer
             GD.Print("Tile selected at: " + tileCoords);
 
             // Update selection
-            _selectedCell = tileCoords;
+            selectedCell = tileCoords;
             UpdateSelectionRect();
 
             // Optionally, get the tile ID at that position
@@ -96,9 +103,9 @@ public partial class UnitsMapLayer : TileMapLayer
 
     private void UpdateSelectionRect()
     {
-        if (_selectedCell.X < 0 || _selectedCell.Y < 0)
+        if (selectedCell.X < 0 || selectedCell.Y < 0)
         {
-            _selectionRect.Visible = false;
+            selectionRectangle.Visible = false;
             return;
         }
 
@@ -106,8 +113,8 @@ public partial class UnitsMapLayer : TileMapLayer
         var tileSize = TileSet.TileSize;
         
         // Position the selection rectangle
-        _selectionRect.Position = MapToLocal(_selectedCell) - tileSize / 2;
-        _selectionRect.Size = tileSize;
-        _selectionRect.Visible = true;
+        selectionRectangle.Position = MapToLocal(selectedCell) - tileSize / 2;
+        selectionRectangle.Size = tileSize;
+        selectionRectangle.Visible = true;
     }
 } 
