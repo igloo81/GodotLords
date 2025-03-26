@@ -5,15 +5,14 @@ using System.Linq;
 public partial class ArmyScene : Node2D
 {
 	public Unit[] Units { get; set; }
+	private static int tileSize = 32;	// todo share..
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		var tileSheet = GD.Load<Texture2D>("res://Resources/units.png");	// todo static/share
 
 		var unitTypeToShow = GetUnitTypeToShow(Units.Select(_ => _.unitTypeEnum).ToArray());
 		var offset = GetOffsetInTileSheet(unitTypeToShow);
-		var tileSize = 32;	// todo share..
         var texture = new AtlasTexture() 
 		{ 
 			Atlas = tileSheet, 
@@ -24,8 +23,14 @@ public partial class ArmyScene : Node2D
         sprite.Texture = texture;
         AddChild(sprite);
 	}
-	
-    private static Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch
+
+    public override void _Draw()
+    {
+		DrawRect(new Rect2(-tileSize/2, -tileSize/2, 4 * Units.Length, 5), new Color(1, 0, 0));
+    }
+
+
+    private static Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch	// todo clean up with tile size..
     {
         UnitTypeEnum.LightInfantry => new Vector2I(0, 0),
         UnitTypeEnum.HeavyInfantry => new Vector2I(1, 0),
