@@ -38,9 +38,13 @@ public partial class Menu : Control
 			Map = map,
 			Units = new List<Unit> { 
 				new Unit { Id = "1st unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Knight, Upkeep = 1 },
-				new Unit { Id = "2nd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Knight, Upkeep = 1 }
-				};
-			UnitsOnMap = new Dictionary<Vector2I, string[]>()
+				new Unit { Id = "2nd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Demon, Upkeep = 1 },
+				new Unit { Id = "3rd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Dwarf, Upkeep = 1 }
+				},
+			UnitsOnMap = new Dictionary<Vector2I, string[]>{
+						{ new Vector2I(10, 10), new string[] { "1st unit" }},
+						{ new Vector2I(12, 10), new string[] { "2nd unit", "3rd unit" }}
+					}
 			};
 		GetTree().Root.AddChild(mapScene);
 		GetTree().CurrentScene = mapScene;	// todo does this keep adding extra scenes?
