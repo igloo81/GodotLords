@@ -8,7 +8,15 @@ public partial class UnitsMapLayer : TileMapLayer
 
     public override void _Ready()
     {
-        this.SetCell(new Vector2I(10, 10), 0, new Vector2I(0, 0));
+        var gameData = ((MapNode)GetParent()).GameData;
+
+        foreach (var unitOnMap in gameData.UnitsOnMap)
+        {
+            var position = unitOnMap.Key;
+            var unitIds = unitOnMap.Value;
+            this.SetCell(position, 0, new Vector2I(0, 0));
+        }
+
 
         // Create a selection rectangle
         _selectionRect = new ColorRect();
