@@ -23,6 +23,9 @@ public class GameData
         }
     }
 
+    public delegate void GameEventHandler(IGameCommand gameEventArgs);
+    public event GameEventHandler SomethingHappened;
+
     public void Execute(IGameCommand command)
     {
         // todo chain commands!
@@ -41,6 +44,8 @@ public class GameData
             default:
                 throw new NotImplementedException($"{command.GetType()}");
         }
+
+        SomethingHappened(command); // todo check for null?
     }
 }
 
