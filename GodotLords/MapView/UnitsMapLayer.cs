@@ -1,5 +1,7 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class UnitsMapLayer : TileMapLayer
 {
@@ -14,9 +16,9 @@ public partial class UnitsMapLayer : TileMapLayer
         {
             var position = unitOnMap.Key;
             var unitIds = unitOnMap.Value;
-            this.SetCell(position, 0, new Vector2I(0, 0));
+            var unit = gameData.Units.First(_ => _.Id == unitIds[0]);
+            this.SetCell(position, 0, GetOffsetInTileSheet(unit.unitTypeEnum));
         }
-
 
         // Create a selection rectangle
         _selectionRect = new ColorRect();
@@ -24,6 +26,15 @@ public partial class UnitsMapLayer : TileMapLayer
         AddChild(_selectionRect);
         _selectionRect.Visible = false;
     }
+
+    private Vector2I GetOffsetInTileSheet(UnitTypeEnum unitTypeEnum) => unitTypeEnum switch
+    {
+        UnitTypeEnum.Archer => new Vector2I(3, 0),
+        UnitTypeEnum.Knight => new Vector2I(3, 3),
+        UnitTypeEnum.Demon => new Vector2I(3, 2),
+        UnitTypeEnum.Dwarf => new Vector2I(0, 2),
+        _ => throw new NotImplementedException()
+    };
 
     // This function is called when you click on the screen.
     public override void _Input(InputEvent @event)
