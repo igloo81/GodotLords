@@ -22,6 +22,26 @@ public class GameData
             yield return unit;
         }
     }
+
+    public void Execute(IGameCommand command)
+    {
+        // todo chain commands!
+        switch (command)
+        {
+            case MoveArmy move: 
+                UnitsOnMap[move.To] = UnitsOnMap[move.From];
+                UnitsOnMap.Remove(move.From);
+                break;
+
+            case MovePartOfArmy movePart: 
+                UnitsOnMap[movePart.To] = movePart.UnitIds;
+                UnitsOnMap[movePart.From] = UnitsOnMap[movePart.From].Except(movePart.UnitIds).ToArray();
+                break;
+
+            default:
+                throw new NotImplementedException($"{command.GetType()}");
+        }
+    }
 }
 
 public record City(string Name);    // units to produce, row, column, defense etc.
