@@ -34,7 +34,14 @@ public partial class Menu : Control
 				{ Color.FromHtml("#005500"), TerrainType.Forest},
 			}
 			);
-		mapScene.GameData = new GameData() { Map = map };
+		mapScene.GameData = new GameData() { 
+			Map = map,
+			Units = new List<Unit> { 
+				new Unit { Id = "1st unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Knight, Upkeep = 1 },
+				new Unit { Id = "2nd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Knight, Upkeep = 1 }
+				};
+			UnitsOnMap = new Dictionary<Vector2I, string[]>()
+			};
 		GetTree().Root.AddChild(mapScene);
 		GetTree().CurrentScene = mapScene;	// todo does this keep adding extra scenes?
 	}

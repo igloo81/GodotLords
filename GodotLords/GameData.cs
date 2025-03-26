@@ -5,7 +5,7 @@ using Godot;
 public class GameData
 {
     public Map Map { get; set;}
-    public List<UnitOnMap> UnitsOnMap { get; set; }
+    public Dictionary<Vector2I, string[]> UnitsOnMap { get; set; }
     public List<Unit> Units { get; set; }
     public List<City> Cities { get; set; }
 }
@@ -35,11 +35,13 @@ public enum UnitTypeEnum    // should be in a data file? Well, some are special 
 }
 public class Unit
 {
-    string Id { get; set; }
+    public string Id { get; set; }
     public int Upkeep { get; set; }
-    int Strength { get; set;}
-    int MovesMaximum { get; set; }
-    int MovesLeft { get; set; }
+    public int Strength { get; set;}
+    public int MovesMaximum { get; set; }
+    public int MovesLeft { get; set; }
+    public string PlayerId { get; set;}
+    public UnitTypeEnum unitTypeEnum { get; set; }
 
     public static int GetMovementCosts(UnitTypeEnum unitType, TerrainType terrainType)
     {
