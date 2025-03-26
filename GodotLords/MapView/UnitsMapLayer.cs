@@ -8,10 +8,15 @@ public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set
     private Vector2I selectedCell = new Vector2I(-1, -1);
     private ColorRect selectionRectangle;
     private GameData gameData;
+    private PackedScene armyScene;
+
+    private Dictionary<Vector2I, Node2D> unitsOnScreen;
 
     public override void _Ready()
     {
+        this.unitsOnScreen = new Dictionary<Vector2I, Node2D>();
         this.gameData = ((MapNode)GetParent()).GameData;
+        this.armyScene = (PackedScene)ResourceLoader.Load("res://ArmyScene.tscn");
 
         foreach (var unitOnMap in gameData.UnitsOnMap)  // todo accessing these objects async...
             ShowUnitOnMap(unitOnMap.Key, unitOnMap.Value);
@@ -20,8 +25,7 @@ public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set
     }
 
     private void InitializeSelectionRectangle()
-    {
-
+    {        
         selectionRectangle = new ColorRect();
         selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // todo move the selection rectangle outside of this class
         AddChild(selectionRectangle);
@@ -30,7 +34,14 @@ public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set
 
     private void ShowUnitOnMap(Vector2I position, string[] unitIds)
     {
-        var units = gameData.GetUnits(unitIds);
+        var tileSize = 32; // todo share!
+        var units = gameData.GetUnits(unitIds).ToArray();
+
+        var newArmyScene = armyScene.Instantiate<ArmyScene>();
+        newArmyScene.Units = units;
+        newArmyScene.Position = position * tileSize + new Vector2I(tileSize / 2, tileSize / 2);
+        AddChild(newArmyScene);
+
         var unitTypeToShow = GetUnitTypeToShow(units.Select(_ => _.unitTypeEnum).ToArray());
         this.SetCell(position, 0, GetOffsetInTileSheet(unitTypeToShow));    // todo show flag
     }
