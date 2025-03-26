@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using GodotLords.Engine;
+
+namespace GodotLords.MapView;
 
 public partial class MapNode : Node2D
 {

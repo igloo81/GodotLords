@@ -2,6 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GodotLords.Engine;
+
+namespace GodotLords.MapView;
 
 public partial class UnitsMapLayer : TileMapLayer   // todo this should be a set of node2ds
 {

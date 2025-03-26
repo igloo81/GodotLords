@@ -2,6 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GodotLords.MapView;
+
+using GodotLords.Engine;
 
 public partial class Menu : Control
 {

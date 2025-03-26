@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
+namespace GodotLords.Engine;
+
 public class GameData
 {
     public Map Map { get; set;}

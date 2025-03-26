@@ -1,3 +1,5 @@
+namespace GodotLords.Engine;
+
 public enum TerrainType
 {
     Water,

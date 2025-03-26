@@ -1,8 +1,9 @@
 using Godot;
 using System;
 using System.Linq;
+using GodotLords.Engine;
 
-//namespace GodotLords.MapView;
+namespace GodotLords.MapView;
 
 public partial class TerrainMapLayer : Godot.TileMapLayer
 {

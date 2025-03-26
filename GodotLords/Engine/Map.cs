@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Godot;
 
+namespace GodotLords.Engine;
+
 public partial record Map(TerrainType[][] tiles)
 {
     public int Height { get; set; }

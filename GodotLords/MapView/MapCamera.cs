@@ -1,7 +1,8 @@
 using Godot;
 using System;
+using GodotLords.Engine;
 
-//namespace GodotLords.MapView;
+namespace GodotLords.MapView;
 
 public partial class MapCamera : Camera2D
 {

@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using System.Linq;
+using GodotLords.Engine;
+
+namespace GodotLords.MapView;
 
 public partial class ArmyScene : Node2D
 {
