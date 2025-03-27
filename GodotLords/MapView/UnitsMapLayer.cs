@@ -22,7 +22,7 @@ public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler    // todo
         this.armyScene = (PackedScene)ResourceLoader.Load("res://ArmyScene.tscn");
 
         foreach (var unitOnMap in gameData.UnitsOnMap)  // todo accessing these objects async...
-            ShowArmyOnMap(unitOnMap.Key, unitOnMap.Value);
+            ShowArmyOnMap(unitOnMap.Key, gameData.GetUnits(unitOnMap.Value).ToArray()); // todo use gameCommands instead?
 
         InitializeSelectionRectangle();
     }
@@ -37,16 +37,15 @@ public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler    // todo
     
 	public void HandleUpdate(GodotLords.Engine.GameUpdate.IGameUpdate gameUpdate)
 	{
-        // switch (gameUpdate)
-        // {
-            // case GameUpdate.MoveArmy move:     // should be enriched in gameData with units etc? Yeah, I do need them here :-)
-            //     //RemoveArmyOnMap(move.From);
-            //     //ShowArmyOnMap(move.To);
-            //     break;
-
-            // case GameUpdate.MovePartOfArmy movePart: 
-            //     break;
-        //}
+        switch (gameUpdate)
+        {
+            case Engine.GameUpdate.MoveArmy move:
+                RemoveArmyOnMap(move.From);
+                if (move.UnitsLeft.Length > 0)
+                    ShowArmyOnMap(move.From, move.UnitsMoved);
+                ShowArmyOnMap(move.To, move.UnitsMoved);
+                break;
+        }
 	}
 
     private void RemoveArmyOnMap(Vector2I position)
@@ -55,10 +54,9 @@ public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler    // todo
             RemoveChild(army);
     }
 
-    private void ShowArmyOnMap(Vector2I position, string[] unitIds)
+    private void ShowArmyOnMap(Vector2I position, Unit[] units)
     {
         var tileSize = 32; // todo share!
-        var units = gameData.GetUnits(unitIds).ToArray();
 
         var newArmyScene = armyScene.Instantiate<ArmyScene>();
         newArmyScene.Units = units;

@@ -33,16 +33,16 @@ public class GameData
         // todo chain commands!
         switch (command)
         {
-            case PlayerCommand.MoveArmy move: 
-                var unitIds = UnitsOnMap[move.From];
-                UnitsOnMap[move.To] = unitIds;
-                UnitsOnMap.Remove(move.From);
-                SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitIds).ToArray()));
-                break;
-
-            case PlayerCommand.MovePartOfArmy movePart: 
-                UnitsOnMap[movePart.To] = movePart.UnitIds;
-                UnitsOnMap[movePart.From] = UnitsOnMap[movePart.From].Except(movePart.UnitIds).ToArray();
+            case PlayerCommand.MoveArmy move:   // todo test :-|
+                var unitsOnTile = UnitsOnMap[move.From];
+                var unitsMoved = move.UnitIds;
+                var unitsLeft = unitsMoved.Except(unitsMoved).ToArray();
+                UnitsOnMap[move.To] = unitsMoved;
+                if (unitsLeft.Length == 0)
+                    UnitsOnMap.Remove(move.From);
+                else
+                    UnitsOnMap[move.From] = unitsLeft;
+                SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitsLeft).ToArray(), GetUnits(unitsMoved).ToArray()));
                 break;
 
             default:
