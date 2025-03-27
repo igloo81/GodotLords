@@ -1,0 +1,6 @@
+using Godot;
+
+namespace GodotLords.Engine.GameUpdate;
+
+public interface IGameUpdate{};
+public record MoveArmy(Vector2I From, Vector2I To, Unit[] units): IGameUpdate;

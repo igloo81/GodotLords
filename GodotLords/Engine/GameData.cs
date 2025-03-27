@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+//using GodotLords.Engine.GameUpdate;
+//using GodotLords.Engine.PlayerCommand;
 
 namespace GodotLords.Engine;
 
@@ -23,20 +25,22 @@ public class GameData
         }
     }
 
-    public delegate void GameEventHandler(IGameCommand gameEventArgs);
+    public delegate void GameEventHandler(GodotLords.Engine.GameUpdate.IGameUpdate gameEventArgs);
     public event GameEventHandler SomethingHappened;
 
-    public void Execute(IGameCommand command)
+    public void Execute(GodotLords.Engine.PlayerCommand.IPlayerCommand command)
     {
         // todo chain commands!
         switch (command)
         {
-            case MoveArmy move: 
-                UnitsOnMap[move.To] = UnitsOnMap[move.From];
+            case PlayerCommand.MoveArmy move: 
+                var unitIds = UnitsOnMap[move.From];
+                UnitsOnMap[move.To] = unitIds;
                 UnitsOnMap.Remove(move.From);
+                SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitIds).ToArray()));
                 break;
 
-            case MovePartOfArmy movePart: 
+            case PlayerCommand.MovePartOfArmy movePart: 
                 UnitsOnMap[movePart.To] = movePart.UnitIds;
                 UnitsOnMap[movePart.From] = UnitsOnMap[movePart.From].Except(movePart.UnitIds).ToArray();
                 break;
@@ -44,8 +48,6 @@ public class GameData
             default:
                 throw new NotImplementedException($"{command.GetType()}");
         }
-
-        SomethingHappened(command); // todo check for null?
     }
 }
 
