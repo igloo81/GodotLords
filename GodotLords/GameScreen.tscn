@@ -197,29 +197,35 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8wqyk")
 
-[node name="MapWindow" type="Control" parent="."]
+[node name="Panel" type="Panel" parent="."]
+layout_direction = 2
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MapWindow" type="Control" parent="Panel"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_bijwq")
 
-[node name="TerrainLayer" type="TileMapLayer" parent="MapWindow"]
+[node name="TerrainLayer" type="TileMapLayer" parent="Panel/MapWindow"]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_074gv")
 script = ExtResource("3_bijwq")
 
-[node name="FeaturesLayer" type="TileMapLayer" parent="MapWindow"]
+[node name="FeaturesLayer" type="TileMapLayer" parent="Panel/MapWindow"]
 tile_set = SubResource("TileSet_78ypk")
 script = ExtResource("4_cpfli")
 
-[node name="UnitsLayer" type="TileMapLayer" parent="MapWindow"]
+[node name="UnitsLayer" type="TileMapLayer" parent="Panel/MapWindow"]
 tile_set = SubResource("TileSet_s7woo")
 script = ExtResource("6_hubxm")
 
-[node name="Camera2D" type="Camera2D" parent="MapWindow"]
+[node name="Camera2D" type="Camera2D" parent="Panel/MapWindow"]
 script = ExtResource("7_tucdy")
 
-[node name="SelectionLayer" type="TileMapLayer" parent="MapWindow"]
+[node name="SelectionLayer" type="TileMapLayer" parent="Panel/MapWindow"]
 tile_set = SubResource("TileSet_r4uab")
 script = ExtResource("8_vlf8u")
