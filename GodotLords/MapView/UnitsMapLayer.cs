@@ -50,6 +50,8 @@ public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler
         {
             case Engine.GameUpdate.MoveArmy moveArmy:
                 RemoveArmyFromMap(moveArmy.From);
+                if (moveArmy.UnitsLeft.Length > 0)
+                    ShowArmyOnMap(moveArmy.From, moveArmy.UnitsLeft);   // todo handle armies walking over each other
                 ShowArmyOnMap(moveArmy.To, moveArmy.UnitsMoved);
                 break;
         }
