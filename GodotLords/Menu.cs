@@ -65,7 +65,8 @@ public partial class Menu : Control
         {
             Map = map,
             Units = units,
-            UnitsOnMap = unitsOnMap
+            UnitsOnMap = unitsOnMap,
+            Cities = new List<City> { new City("test city", 10, 10) }
         };
         return gameData;
     }

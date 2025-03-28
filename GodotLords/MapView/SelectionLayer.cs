@@ -1,15 +1,22 @@
 using Godot;
+using GodotLords.Engine;
 using System;
+using System.Linq;
+
+namespace GodotLords.MapView;
 
 public partial class SelectionLayer : TileMapLayer
 {
+    private GameData gameData;
     private Vector2I selectedCell = new Vector2I(-1, -1);
     private ColorRect selectionRectangle;
-
+	public bool UnitSelected { get; set; }
+	public bool CitySelected { get; set; }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+        this.gameData = ((MapNode)GetParent()).GameData;
         InitializeSelectionRectangle();
 	}
 
@@ -26,38 +33,53 @@ public partial class SelectionLayer : TileMapLayer
             mouseEvent.Pressed && 
             mouseEvent.ButtonIndex == MouseButton.Left)
         {
-            // Get the mouse position in the global space
-            Vector2 mousePos = GetGlobalMousePosition();
-
-            // Convert the mouse position to the local space of the TileMap
-            Vector2 localPos = ToLocal(mousePos);
-
-            // Convert the local position to tile coordinates
-            var tileCoords = LocalToMap(localPos);
-
-            // Print the tile coordinates to the console
-            GD.Print("Tile selected at: " + tileCoords);
-            selectedCell = tileCoords;
-            UpdateSelectionRect();
-
-            // Optionally, get the tile ID at that position
-            //int tileId = GetCellSourceId(0, tileCoords);
-            //GD.Print("Tile ID: " + tileId);
-
-            // You can also replace the tile with another ID, for example:
-            // SetCell(0, tileCoords, 0, new Vector2I(0, 0));
+            var newSelectedCell = GetTileCoordinates();
+			if (newSelectedCell != selectedCell)
+			{
+				selectedCell = newSelectedCell;
+				if (HasUnit())
+					UnitSelected = true;
+				else if (HasCity())
+					CitySelected = true;
+			}
+			else
+			{
+				if (HasUnit() && HasCity())
+				{
+					UnitSelected = !UnitSelected;
+					CitySelected = !CitySelected;
+				}
+				else
+				{
+					UnitSelected = false;
+					CitySelected = false;
+				}
+				
+			}
+			UpdateSelectionRect();
         }
     }
+
+	private bool HasCity() =>
+		gameData.Cities.Any(c => c.Row == selectedCell.X && c.Column == selectedCell.Y);
+	private bool HasUnit() =>
+		gameData.UnitsOnMap.Any(u => u.Key == selectedCell);
+    private Vector2I GetTileCoordinates()
+    {
+        Vector2 mousePos = GetGlobalMousePosition();
+        Vector2 localPos = ToLocal(mousePos);
+        var tileCoords = LocalToMap(localPos);
+        return tileCoords;
+    }
+
 
     private void UpdateSelectionRect()
      {
          if (selectedCell.X < 0 || selectedCell.Y < 0)
          {
              selectionRectangle.Visible = false;
-            GD.Print("Invisible" + selectedCell);
              return;
          }
-            GD.Print("visible" + selectedCell);
  
          // Get the tile size
          var tileSize = TileSet.TileSize;
@@ -66,13 +88,21 @@ public partial class SelectionLayer : TileMapLayer
          selectionRectangle.Position = MapToLocal(selectedCell) - tileSize / 2;
          selectionRectangle.Size = tileSize;
          selectionRectangle.Visible = true;
+
+		 if (UnitSelected)
+		 {
+			selectionRectangle.Color = new Color(1, 1, 0, 0.3f);
+		 }
+		 else if (CitySelected)
+		 {
+			selectionRectangle.Color = new Color(0, 1, 1, 0.3f);
+		 }
      }   
 
      private void InitializeSelectionRectangle()
      {        
          selectionRectangle = new ColorRect();
          selectionRectangle.ZIndex = 100;
-         selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // todo move the selection rectangle outside of this class
          AddChild(selectionRectangle);
          selectionRectangle.Visible = false;
      }

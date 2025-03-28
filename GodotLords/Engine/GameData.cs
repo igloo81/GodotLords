@@ -12,6 +12,7 @@ public class GameData
     public Map Map { get; set;}
     public Dictionary<Vector2I, string[]> UnitsOnMap { get; set; }
     public List<Unit> Units { get; set; }
+    
     public List<City> Cities { get; set; }
 
     public IEnumerable<Unit> GetUnits(string[] ids)
@@ -51,7 +52,7 @@ public class GameData
     }
 }
 
-public record City(string Name);    // units to produce, row, column, defense etc.
+public record City(string Name, int Row, int Column);    // units to produce, row, column, defense etc.
 
 public record UnitOnMap(int Row, int Column, string Id);        // todo reference to unit, not unit itself
 
