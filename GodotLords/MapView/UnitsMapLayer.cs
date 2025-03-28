@@ -31,6 +31,7 @@ public partial class UnitsMapLayer : TileMapLayer
 
             // Print the tile coordinates to the console
             GD.Print("Tile selected at: " + tileCoords);
+            selectedCell = tileCoords;
             UpdateSelectionRect();
 
             // Optionally, get the tile ID at that position
@@ -47,8 +48,10 @@ public partial class UnitsMapLayer : TileMapLayer
          if (selectedCell.X < 0 || selectedCell.Y < 0)
          {
              selectionRectangle.Visible = false;
+            GD.Print("Invisible" + selectedCell);
              return;
          }
+            GD.Print("visible" + selectedCell);
  
          // Get the tile size
          var tileSize = TileSet.TileSize;
@@ -62,6 +65,7 @@ public partial class UnitsMapLayer : TileMapLayer
      private void InitializeSelectionRectangle()
      {        
          selectionRectangle = new ColorRect();
+         selectionRectangle.ZIndex = 100;
          selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // todo move the selection rectangle outside of this class
          AddChild(selectionRectangle);
          selectionRectangle.Visible = false;
