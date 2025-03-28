@@ -16,7 +16,7 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        this.gameData = ((MapNode)GetParent()).GameData;
+        this.gameData = GetParent<MapWindow>().GetGameData();
         InitializeSelectionRectangle();
 	}
 

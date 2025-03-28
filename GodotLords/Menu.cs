@@ -5,6 +5,7 @@ using System.Linq;
 using GodotLords.MapView;
 
 using GodotLords.Engine;
+using GodotLords.GameWindow;
 
 public partial class Menu : Control
 {
@@ -27,7 +28,7 @@ public partial class Menu : Control
 	public void OnStartPressed()
     {
         var gameData = CreateTestGameData();
-        var mapScene = (MapNode)((PackedScene)ResourceLoader.Load("res://node_2d.tscn")).Instantiate();
+        var mapScene = (GameWindow)((PackedScene)ResourceLoader.Load("res://GameScreen.tscn")).Instantiate();
         mapScene.GameData = gameData;
         GetTree().Root.AddChild(mapScene);
         GetTree().CurrentScene = mapScene;  // todo does this keep adding extra scenes?

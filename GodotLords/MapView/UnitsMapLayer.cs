@@ -15,7 +15,7 @@ public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler
     public override void _Ready()
     {
         this.unitsOnScreen = new Dictionary<Vector2I, Node2D>();
-        this.gameData = ((MapNode)GetParent()).GameData;
+        this.gameData = GetParent<MapWindow>().GetGameData();
         this.armyScene = (PackedScene)ResourceLoader.Load("res://ArmyScene.tscn");
 
         foreach (var unitOnMap in gameData.UnitsOnMap)  // todo accessing these objects async...
