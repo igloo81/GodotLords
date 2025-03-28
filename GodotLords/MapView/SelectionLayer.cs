@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GodotLords.MapView;
 
-public partial class SelectionLayer : TileMapLayer
+public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 {
     private GameData gameData;
     private Vector2I selectedCell = new Vector2I(-1, -1);
@@ -136,4 +136,18 @@ public partial class SelectionLayer : TileMapLayer
          AddChild(selectionRectangle);
          selectionRectangle.Visible = false;
      }
+
+    public void HandleUpdate(Engine.GameUpdate.IGameUpdate update)
+    {
+        switch (update)
+        {
+            case Engine.GameUpdate.MoveArmy moveArmy:
+				if (moveArmy.From == selectedCell)
+				{
+					selectedCell = moveArmy.To;
+                	UpdateSelectionRect();
+				}
+                break;
+        }
+    }
 }
