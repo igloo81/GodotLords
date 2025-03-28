@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://djr88g0i2nkr8"]
+[gd_scene load_steps=17 format=3 uid="uid://djr88g0i2nkr8"]
 
 [ext_resource type="Texture2D" uid="uid://drnnwdgfqjxib" path="res://Resources/Terrain.png" id="1_c5gec"]
 [ext_resource type="Script" path="res://MapView/MapNode.cs" id="1_pwwwa"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c34s44vlrcvss" path="res://Resources/units.png" id="5_3lhe0"]
 [ext_resource type="Script" path="res://MapView/UnitsMapLayer.cs" id="5_24kiv"]
 [ext_resource type="Script" path="res://MapView/MapCamera.cs" id="5_t73vm"]
+[ext_resource type="Script" path="res://Mapview/SelectionLayer.cs" id="9_r1yc0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qv85k"]
 texture = ExtResource("1_c5gec")
@@ -201,3 +202,6 @@ script = ExtResource("5_24kiv")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("5_t73vm")
+
+[node name="SelectionLayer" type="TileMapLayer" parent="."]
+script = ExtResource("9_r1yc0")

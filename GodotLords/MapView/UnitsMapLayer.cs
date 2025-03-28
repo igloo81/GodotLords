@@ -1,73 +1,35 @@
 using Godot;
+using GodotLords.Engine;
 using System.Collections.Generic;
+using System.Linq;
+
+namespace GodotLords.MapView;
 
 public partial class UnitsMapLayer : TileMapLayer
 {
-    private Vector2I selectedCell = new Vector2I(-1, -1);
-    private ColorRect selectionRectangle;
+    private GameData gameData;
+    private PackedScene armyScene;
+    private Dictionary<Vector2I, Node2D> unitsOnScreen;
 
     public override void _Ready()
     {
-        this.SetCell(new Vector2I(10, 10), 0, new Vector2I(0, 0));
+        this.unitsOnScreen = new Dictionary<Vector2I, Node2D>();
+        this.gameData = ((MapNode)GetParent()).GameData;
+        this.armyScene = (PackedScene)ResourceLoader.Load("res://ArmyScene.tscn");
 
-        InitializeSelectionRectangle();
+        foreach (var unitOnMap in gameData.UnitsOnMap)  // todo accessing these objects async...
+             ShowArmyOnMap(unitOnMap.Key, gameData.GetUnits(unitOnMap.Value).ToArray());
     }
 
-    // This function is called when you click on the screen.
-    public override void _Input(InputEvent @event)
+    private void ShowArmyOnMap(Vector2I position, Unit[] units)
     {
-        if (@event is InputEventMouseButton mouseEvent && 
-            mouseEvent.Pressed && 
-            mouseEvent.ButtonIndex == MouseButton.Left)
-        {
-            // Get the mouse position in the global space
-            Vector2 mousePos = GetGlobalMousePosition();
-
-            // Convert the mouse position to the local space of the TileMap
-            Vector2 localPos = ToLocal(mousePos);
-
-            // Convert the local position to tile coordinates
-            var tileCoords = LocalToMap(localPos);
-
-            // Print the tile coordinates to the console
-            GD.Print("Tile selected at: " + tileCoords);
-            selectedCell = tileCoords;
-            UpdateSelectionRect();
-
-            // Optionally, get the tile ID at that position
-            //int tileId = GetCellSourceId(0, tileCoords);
-            //GD.Print("Tile ID: " + tileId);
-
-            // You can also replace the tile with another ID, for example:
-            // SetCell(0, tileCoords, 0, new Vector2I(0, 0));
-        }
-    }
-
-    private void UpdateSelectionRect()
-     {
-         if (selectedCell.X < 0 || selectedCell.Y < 0)
-         {
-             selectionRectangle.Visible = false;
-            GD.Print("Invisible" + selectedCell);
-             return;
-         }
-            GD.Print("visible" + selectedCell);
+         var tileSize = 32; // todo share!
  
-         // Get the tile size
-         var tileSize = TileSet.TileSize;
+         var newArmyScene = armyScene.Instantiate<ArmyScene>();
+         newArmyScene.Units = units;
+         newArmyScene.Position = position * tileSize + new Vector2I(tileSize / 2, tileSize / 2);
  
-         // Position the selection rectangle
-         selectionRectangle.Position = MapToLocal(selectedCell) - tileSize / 2;
-         selectionRectangle.Size = tileSize;
-         selectionRectangle.Visible = true;
-     }   
-
-     private void InitializeSelectionRectangle()
-     {        
-         selectionRectangle = new ColorRect();
-         selectionRectangle.ZIndex = 100;
-         selectionRectangle.Color = new Color(1, 1, 0, 0.3f); // todo move the selection rectangle outside of this class
-         AddChild(selectionRectangle);
-         selectionRectangle.Visible = false;
+         unitsOnScreen[position] = newArmyScene;
+         AddChild(newArmyScene);
      }
 } 
