@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://b2uhwbl3fv3rf"]
 
-[ext_resource type="Script" path="res://Menu.cs" id="1_uytfi"]
+[ext_resource type="Script" uid="uid://e23mwvqwuh7n" path="res://Menu.cs" id="1_uytfi"]
 [ext_resource type="FontFile" uid="uid://bawaef7814dft" path="res://Resources/EagleLake-Regular.ttf" id="2_2g7ab"]
 [ext_resource type="Texture2D" uid="uid://b5dnp5kppyqlp" path="res://Resources/Menu/background.png" id="3_jyqsh"]
 [ext_resource type="Theme" uid="uid://bb5hqfhudxhpw" path="res://menuTheme.tres" id="3_mks4y"]

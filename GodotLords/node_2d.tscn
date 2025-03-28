@@ -1,14 +1,14 @@
 [gd_scene load_steps=18 format=3 uid="uid://djr88g0i2nkr8"]
 
 [ext_resource type="Texture2D" uid="uid://drnnwdgfqjxib" path="res://Resources/Terrain.png" id="1_c5gec"]
-[ext_resource type="Script" path="res://MapView/MapNode.cs" id="1_pwwwa"]
+[ext_resource type="Script" uid="uid://bvhr4nrdr6b3g" path="res://MapView/MapNode.cs" id="1_pwwwa"]
 [ext_resource type="Texture2D" uid="uid://bmpykf6tk68wv" path="res://Resources/Terrain_3.png" id="2_7avp5"]
-[ext_resource type="Script" path="res://MapView/TerrainMapLayer.cs" id="3_43xkp"]
-[ext_resource type="Script" path="res://MapView/FeaturesMapLayer.cs" id="4_qkhbp"]
+[ext_resource type="Script" uid="uid://dl3no0umyct34" path="res://MapView/TerrainMapLayer.cs" id="3_43xkp"]
+[ext_resource type="Script" uid="uid://bdqyw4psnw05t" path="res://MapView/FeaturesMapLayer.cs" id="4_qkhbp"]
 [ext_resource type="Texture2D" uid="uid://c34s44vlrcvss" path="res://Resources/units.png" id="5_3lhe0"]
-[ext_resource type="Script" path="res://MapView/UnitsMapLayer.cs" id="5_24kiv"]
-[ext_resource type="Script" path="res://MapView/MapCamera.cs" id="5_t73vm"]
-[ext_resource type="Script" path="res://MapView/SelectionLayer.cs" id="9_l574t"]
+[ext_resource type="Script" uid="uid://dtw7ht0w0vv8a" path="res://MapView/UnitsMapLayer.cs" id="5_24kiv"]
+[ext_resource type="Script" uid="uid://k0oswkkgweol" path="res://MapView/MapCamera.cs" id="5_t73vm"]
+[ext_resource type="Script" uid="uid://78yeoelyon58" path="res://MapView/SelectionLayer.cs" id="9_l574t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qv85k"]
 texture = ExtResource("1_c5gec")
