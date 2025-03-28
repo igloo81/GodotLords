@@ -1,11 +1,12 @@
 using Godot;
 using GodotLords.Engine;
+using GodotLords.Engine.GameUpdate;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GodotLords.MapView;
 
-public partial class UnitsMapLayer : TileMapLayer
+public partial class UnitsMapLayer : TileMapLayer, IGameUpdateHandler
 {
     private GameData gameData;
     private PackedScene armyScene;
@@ -32,4 +33,25 @@ public partial class UnitsMapLayer : TileMapLayer
          unitsOnScreen[position] = newArmyScene;
          AddChild(newArmyScene);
      }
+
+    private void RemoveArmyFromMap(Vector2I position)
+    {
+        if (unitsOnScreen.TryGetValue(position, out var armyScene))
+        {
+            RemoveChild(armyScene);
+            armyScene.QueueFree();
+            unitsOnScreen.Remove(position);
+        }
+    }
+
+    public void HandleUpdate(IGameUpdate update)
+    {
+        switch (update)
+        {
+            case Engine.GameUpdate.MoveArmy moveArmy:
+                RemoveArmyFromMap(moveArmy.From);
+                ShowArmyOnMap(moveArmy.To, moveArmy.UnitsMoved);
+                break;
+        }
+    }
 } 
