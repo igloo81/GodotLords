@@ -29,38 +29,64 @@ public partial class SelectionLayer : TileMapLayer
     // This function is called when you click on the screen.
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mouseEvent && 
-            mouseEvent.Pressed && 
+        MoveArmy();
+        ChangeSelection(@event);
+    }
+
+    private void ChangeSelection(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseEvent &&
+
+            mouseEvent.Pressed &&
+
             mouseEvent.ButtonIndex == MouseButton.Left)
         {
             var newSelectedCell = GetTileCoordinates();
-			if (newSelectedCell != selectedCell)
-			{
-				selectedCell = newSelectedCell;
-				if (HasUnit())
-					UnitSelected = true;
-				else if (HasCity())
-					CitySelected = true;
-			}
-			else
-			{
-				if (HasUnit() && HasCity())
-				{
-					UnitSelected = !UnitSelected;
-					CitySelected = !CitySelected;
-				}
-				else
-				{
-					UnitSelected = false;
-					CitySelected = false;
-				}
-				
-			}
-			UpdateSelectionRect();
+            if (newSelectedCell != selectedCell)
+            {
+                UnitSelected = false;
+                CitySelected = false;
+                selectedCell = newSelectedCell;
+                if (HasUnit())
+                    UnitSelected = true;
+                else if (HasCity())
+                    CitySelected = true;
+            }
+            else
+            {
+                if (HasUnit() && HasCity())
+                {
+                    UnitSelected = !UnitSelected;
+                    CitySelected = !CitySelected;
+                }
+            }
+            UpdateSelectionRect();
         }
     }
 
-	private bool HasCity() =>
+
+    private void MoveArmy()
+    {
+        if (UnitSelected)
+        {
+            if (Input.IsActionPressed("army_move_left"))
+                MoveArmy(Vector2I.Left);
+            if (Input.IsActionPressed("army_move_right"))
+                MoveArmy(Vector2I.Right);
+            if (Input.IsActionPressed("army_move_up"))
+                MoveArmy(Vector2I.Up);
+            if (Input.IsActionPressed("army_move_down"))
+                MoveArmy(Vector2I.Down);
+        }
+    }
+
+    private void MoveArmy(Vector2I direction)
+    {
+        var destination = selectedCell + direction;
+        gameData.Execute(new Engine.PlayerCommand.MoveArmy(selectedCell, destination, gameData.UnitsOnMap[selectedCell]));
+    }
+
+    private bool HasCity() =>
 		gameData.Cities.Any(c => c.Row == selectedCell.X && c.Column == selectedCell.Y);
 	private bool HasUnit() =>
 		gameData.UnitsOnMap.Any(u => u.Key == selectedCell);
@@ -96,6 +122,10 @@ public partial class SelectionLayer : TileMapLayer
 		 else if (CitySelected)
 		 {
 			selectionRectangle.Color = new Color(0, 1, 1, 0.3f);
+		 }
+		 else
+		 {
+			selectionRectangle.Color = new Color(0, 0, 0, 0.3f);
 		 }
      }   
 
