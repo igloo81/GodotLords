@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d1ahym4rympgw"]
 
-[ext_resource type="Script" path="res://ArmyScene.cs" id="1_5h357"]
+[ext_resource type="Script" path="res://MapView/ArmyScene.cs" id="1_757qk"]
 
 [node name="ArmyScene" type="Node2D"]
-script = ExtResource("1_5h357")
+script = ExtResource("1_757qk")
