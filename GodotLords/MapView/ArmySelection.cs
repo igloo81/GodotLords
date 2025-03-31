@@ -19,9 +19,9 @@ public partial class ArmySelection : Control
 
     public void Set(string playerName, string armyName, string movesLeft, string strength)
     {
-        GetNode<Label>("%PlayerNameLabel").Text = playerName;
-        GetNode<Label>("%MoveCountLabel").Text = movesLeft;
-        GetNode<Label>("%ArmyNameLabel").Text = armyName;
-        GetNode<Label>("%StrengthLabel").Text = strength;
+        GetNode<Label>("%PlayerNameLabel").Text = $"Player: {playerName}";
+        GetNode<Label>("%MoveCountLabel").Text = $"Moves: {movesLeft}";
+        GetNode<Label>("%ArmyNameLabel").Text = $"Army: {armyName}";
+        GetNode<Label>("%StrengthLabel").Text = $"Strength: {strength}";
     }
 }
