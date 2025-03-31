@@ -7,6 +7,7 @@ public partial record Map(TerrainType[][] tiles)
 {
     public int Height { get; set; }
     public int Width { get; set; }
+    public TerrainType Get(Vector2I position) => tiles[position.Y][position.X];
     public TerrainType Get(int x, int y) => tiles[y][x];
 
     public static Map FromImage(string path, int pixelsPerTile, Dictionary<Color, TerrainType> colorMapper)

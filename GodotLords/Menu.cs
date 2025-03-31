@@ -50,9 +50,9 @@ public partial class Menu : Control
             );
 
         var units = new List<Unit> {
-                new Unit { Id = "1st unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Knight, Upkeep = 1 },
-                new Unit { Id = "2nd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.LightInfantry, Upkeep = 1 },
-                new Unit { Id = "3rd unit", MovesLeft = 10, MovesMaximum = 10, PlayerId = "joost", Strength = 4, unitTypeEnum = UnitTypeEnum.Dwarf, Upkeep = 1 }
+                new Unit("1st unit", 10, 10, "joost", 4, UnitTypeEnum.Knight, 1 ),
+                new Unit("2nd unit", 10, 10, "joost", 4, UnitTypeEnum.LightInfantry,  1 ),
+                new Unit("3rd unit", 10, 10, "joost", 4, UnitTypeEnum.Dwarf, 1 )
                 };
 
         var unitsOnMap = new Dictionary<Vector2I, string[]>{
@@ -78,7 +78,7 @@ public partial class Menu : Control
         var index = 0;
         foreach (var a in Enum.GetValues<UnitTypeEnum>())
         {
-            var unit = new Unit { Id = $"test sprites, unit type {a}", unitTypeEnum = a };
+            var unit = new Unit($"test sprites, unit type {a}", 10, 10, $"test {a}", 5, a, 1);
             units.Add(unit);
             unitsOnMap[new Vector2I(2 + index % 4, 2 + index / 4)] = new string[] { unit.Id };
             index++;

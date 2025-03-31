@@ -34,22 +34,35 @@ public class GameData
         // todo chain commands!
         switch (command)
         {
-            case PlayerCommand.MoveArmy move:   // todo test :-|
-                var unitsOnTile = UnitsOnMap[move.From];
-                var unitsMoved = move.UnitIds;
-                var unitsLeft = unitsMoved.Except(unitsMoved).ToArray();
-                UnitsOnMap[move.To] = unitsMoved;
-                if (unitsLeft.Length == 0)
-                    UnitsOnMap.Remove(move.From);
-                else
-                    UnitsOnMap[move.From] = unitsLeft;
-                SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitsLeft).ToArray(), GetUnits(unitsMoved).ToArray()));
+            case PlayerCommand.MoveArmy move:
+                Move(move);
                 break;
 
             default:
                 throw new NotImplementedException($"{command.GetType()}");
         }
     }
+
+    private void Move(PlayerCommand.MoveArmy move)
+    {
+        var unitsOnTile = UnitsOnMap[move.From];
+        var unitsLeft = unitsOnTile.Except(move.UnitIds).ToArray();
+        var unitsMoved = GetUnits(move.UnitIds).Select(_ => _.MoveTo(Map.Get(move.To))).ToArray();
+        if (unitsMoved.Any(_ => _.MovesLeft < 0))
+            return;
+
+        Units.RemoveAll(_ => move.UnitIds.Contains(_.Id));
+        Units.AddRange(unitsMoved);
+
+        UnitsOnMap[move.To] = move.UnitIds;
+        if (unitsLeft.Length == 0)
+            UnitsOnMap.Remove(move.From);
+        else
+            UnitsOnMap[move.From] = unitsLeft;
+        SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitsLeft).ToArray(), unitsMoved));
+        return;
+    }
+
 }
 
 public record City(string Name, int Row, int Column);    // units to produce, row, column, defense etc.
@@ -75,20 +88,21 @@ public enum UnitTypeEnum    // should be in a data file? Well, some are special 
     Dragon,
     Knight
 }
-public class Unit
+public record Unit(string Id, int MovesMaximum, int MovesLeft, string PlayerId, int Strength,  UnitTypeEnum unitTypeEnum, int Upkeep)
 {
-    public string Id { get; set; }
-    public int Upkeep { get; set; }
-    public int Strength { get; set;}
-    public int MovesMaximum { get; set; }
-    public int MovesLeft { get; set; }
-    public string PlayerId { get; set;}
-    public UnitTypeEnum unitTypeEnum { get; set; }
-
     public static int GetMovementCosts(UnitTypeEnum unitType, TerrainType terrainType)
     {
         var terrainIndex = Array.IndexOf(TerrainTypes, terrainType);
         return movementSpeeds[unitType][terrainIndex];
+    }
+
+    public Unit MoveTo(TerrainType terrainType)
+    {
+        var costs = GetMovementCosts(unitTypeEnum, terrainType);
+        if (costs > 0)
+            return this with { MovesLeft = MovesLeft - costs };
+        else
+            return this with { MovesLeft = -1 };
     }
 
     // city / player
