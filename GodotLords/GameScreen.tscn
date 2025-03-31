@@ -267,3 +267,14 @@ layout_mode = 2
 [node name="CostsLabel" type="Label" parent="VBoxContainer/BottomPanel/CityProduction/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "asdf"
+
+[node name="CommandColumn" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 6.0
+offset_right = 552.0
+offset_bottom = 46.0
+
+[node name="Button" type="Button" parent="CommandColumn"]
+layout_mode = 2
+text = "Next turn"
