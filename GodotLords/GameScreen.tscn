@@ -193,39 +193,53 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -305.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8wqyk")
 
-[node name="Panel" type="Panel" parent="."]
-layout_direction = 2
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MapWindow" type="Control" parent="Panel"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="MapWindow" type="Control" parent="VBoxContainer/SubViewportContainer/SubViewport"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_bijwq")
 
-[node name="TerrainLayer" type="TileMapLayer" parent="Panel/MapWindow"]
+[node name="TerrainLayer" type="TileMapLayer" parent="VBoxContainer/SubViewportContainer/SubViewport/MapWindow"]
 position = Vector2(-16, -16)
 tile_set = SubResource("TileSet_074gv")
 script = ExtResource("3_bijwq")
 
-[node name="FeaturesLayer" type="TileMapLayer" parent="Panel/MapWindow"]
+[node name="FeaturesLayer" type="TileMapLayer" parent="VBoxContainer/SubViewportContainer/SubViewport/MapWindow"]
 tile_set = SubResource("TileSet_78ypk")
 script = ExtResource("4_cpfli")
 
-[node name="UnitsLayer" type="TileMapLayer" parent="Panel/MapWindow"]
+[node name="UnitsLayer" type="TileMapLayer" parent="VBoxContainer/SubViewportContainer/SubViewport/MapWindow"]
 tile_set = SubResource("TileSet_s7woo")
 script = ExtResource("6_hubxm")
 
-[node name="Camera2D" type="Camera2D" parent="Panel/MapWindow"]
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/SubViewportContainer/SubViewport/MapWindow"]
 script = ExtResource("7_tucdy")
 
-[node name="SelectionLayer" type="TileMapLayer" parent="Panel/MapWindow"]
+[node name="SelectionLayer" type="TileMapLayer" parent="VBoxContainer/SubViewportContainer/SubViewport/MapWindow"]
 tile_set = SubResource("TileSet_r4uab")
 script = ExtResource("8_vlf8u")
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
