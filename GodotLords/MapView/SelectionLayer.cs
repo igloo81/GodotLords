@@ -63,11 +63,6 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
                 }
             }
             UpdateSelectionRect();
-
-            if (UnitSelected)
-            {
-                gameWindow.ArmySelection.SetArmy(gameData.GetUnits(gameData.UnitsOnMap[selectedCell]).ToArray());
-            }
         }
     }
 
@@ -134,6 +129,11 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 		 {
 			selectionRectangle.Color = new Color(0, 0, 0, 0.3f);
 		 }
+
+        if (UnitSelected)
+        {
+            gameWindow.ArmySelection.SetArmy(gameData.GetUnits(gameData.UnitsOnMap[selectedCell]).ToArray());
+        }
      }   
 
      private void InitializeSelectionRectangle()
