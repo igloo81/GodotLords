@@ -188,7 +188,7 @@ sources/0 = SubResource("TileSetAtlasSource_yhqab")
 [sub_resource type="TileSet" id="TileSet_r4uab"]
 tile_size = Vector2i(32, 32)
 
-[node name="Control" type="Control"]
+[node name="GameWindow" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -240,6 +240,30 @@ script = ExtResource("7_tucdy")
 tile_set = SubResource("TileSet_r4uab")
 script = ExtResource("8_vlf8u")
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="BottomPanel" type="Panel" parent="VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+
+[node name="CityProduction" type="HBoxContainer" parent="VBoxContainer/BottomPanel"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BottomPanel/CityProduction"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/BottomPanel/CityProduction/VBoxContainer"]
+layout_mode = 2
+
+[node name="HotKeyLabel" type="Label" parent="VBoxContainer/BottomPanel/CityProduction/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "fasd"
+
+[node name="UnitSprite" type="TextureRect" parent="VBoxContainer/BottomPanel/CityProduction/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CostsLabel" type="Label" parent="VBoxContainer/BottomPanel/CityProduction/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "asdf"

@@ -7,6 +7,7 @@ namespace GodotLords.MapView;
 
 public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 {
+    private GameWindow.GameWindow gameWindow;
     private GameData gameData;
     private Vector2I selectedCell = new Vector2I(-1, -1);
     private ColorRect selectionRectangle;
@@ -18,6 +19,7 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 	{
         this.gameData = GetParent<MapWindow>().GetGameData();
         InitializeSelectionRectangle();
+        gameWindow = GetParent<MapWindow>().GetGameWindow();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -61,6 +63,11 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
                 }
             }
             UpdateSelectionRect();
+
+            if (UnitSelected)
+            {
+                gameWindow.ArmySelection.SetArmy(selectedCell.ToString());
+            }
         }
     }
 

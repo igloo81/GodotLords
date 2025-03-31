@@ -7,10 +7,15 @@ public partial class MapWindow : Control, IGameUpdateHandler
 {
     public GameData GetGameData()
 	{
+		return GetGameWindow()?.GameData;
+	}
+
+    public GameWindow.GameWindow GetGameWindow()
+	{
 		var parent = GetParent();
 		while (parent != null && !(parent is GameWindow.GameWindow))
 			parent = parent.GetParent();
-		return ((GameWindow.GameWindow)parent).GameData;
+		return ((GameWindow.GameWindow)parent);
 	}
 
 	public override void _Ready()
