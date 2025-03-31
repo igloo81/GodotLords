@@ -66,7 +66,7 @@ public class GameData
             UnitsOnMap.Remove(move.From);
         else
             UnitsOnMap[move.From] = unitsLeft;
-            
+
         SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitsLeft).ToArray(), unitsMoved));
         return;
     }
@@ -75,9 +75,11 @@ public class GameData
     {
         if (Players.Length > 0)
         {
+            var previousPlayer = CurrentPlayer;
             currentPlayerIndex = (currentPlayerIndex + 1) % Players.Length;
             var unitsToUpdate = Units.Where(_ => _.PlayerId == CurrentPlayer).ToArray();
             UpdateUnits(unitsToUpdate.Select(_ => _.NewTurn()).ToArray());
+            SomethingHappened(new GameUpdate.EndTurn(previousPlayer, CurrentPlayer));
         }
     }
     private void UpdateUnits(Unit[] units)

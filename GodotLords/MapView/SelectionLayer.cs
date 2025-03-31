@@ -108,7 +108,7 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
              selectionRectangle.Visible = false;
              return;
          }
- 
+
          // Get the tile size
          var tileSize = TileSet.TileSize;
  
@@ -154,6 +154,10 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 					selectedCell = moveArmy.To;
                 	UpdateSelectionRect();
 				}
+                break;
+                
+            case Engine.GameUpdate.EndTurn endTurn:
+                UpdateSelectionRect();
                 break;
         }
     }

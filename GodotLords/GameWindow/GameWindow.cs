@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using GodotLords.Engine;
 using GodotLords.MapView;
@@ -29,5 +30,10 @@ public partial class GameWindow : Control, IGameUpdateHandler
 	public override void _ExitTree()
 	{
 		GameData.SomethingHappened -= HandleUpdate;	// todo here or in a constructor?
+	}
+
+	public void OnEndTurnPressed()
+	{
+		GameData.Execute(new Engine.PlayerCommand.EndTurn());
 	}
 }
