@@ -66,7 +66,7 @@ public partial class SelectionLayer : TileMapLayer, IGameUpdateHandler
 
             if (UnitSelected)
             {
-                gameWindow.ArmySelection.SetArmy(selectedCell.ToString());
+                gameWindow.ArmySelection.SetArmy(gameData.GetUnits(gameData.UnitsOnMap[selectedCell]).ToArray());
             }
         }
     }
