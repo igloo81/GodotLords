@@ -15,10 +15,10 @@ public class GameData
     
     public List<City> Cities { get; set; }
 
-    public string[] Players { get; set; }
+    public Player[] Players { get; set; }
 
     private int currentPlayerIndex = 0;
-    public string CurrentPlayer => Players[currentPlayerIndex];
+    public Player CurrentPlayer => Players[currentPlayerIndex];
 
     public IEnumerable<Unit> GetUnits(string[] ids)
     {
@@ -77,9 +77,9 @@ public class GameData
         {
             var previousPlayer = CurrentPlayer;
             currentPlayerIndex = (currentPlayerIndex + 1) % Players.Length;
-            var unitsToUpdate = Units.Where(_ => _.PlayerId == CurrentPlayer).ToArray();
+            var unitsToUpdate = Units.Where(_ => _.PlayerId == CurrentPlayer.Id).ToArray();
             UpdateUnits(unitsToUpdate.Select(_ => _.NewTurn()).ToArray());
-            SomethingHappened(new GameUpdate.EndTurn(previousPlayer, CurrentPlayer));
+            SomethingHappened(new GameUpdate.EndTurn(previousPlayer.Name, CurrentPlayer.Name));
         }
     }
     private void UpdateUnits(Unit[] units)
@@ -89,6 +89,8 @@ public class GameData
         Units.AddRange(units);
     }
 }
+
+public record Player(string Id, string Name, int Gold);
 
 public record City(string Name, int Row, int Column);    // units to produce, row, column, defense etc.
 

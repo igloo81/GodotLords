@@ -60,7 +60,7 @@ public partial class Menu : Control
                         { new Vector2I(12, 10), new string[] { "2nd unit", "3rd unit" }}
                     };
 
-        var players = new string[] { "joost"};
+        var players = new [] { new Player("joost", "joost", 100) };
 
         AddOneOfEachUnitType(units, unitsOnMap);
 
