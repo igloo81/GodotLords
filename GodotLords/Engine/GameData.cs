@@ -15,6 +15,11 @@ public class GameData
     
     public List<City> Cities { get; set; }
 
+    public string[] Players { get; set; }
+
+    private int currentPlayerIndex = 0;
+    public string CurrentPlayer => Players[currentPlayerIndex];
+
     public IEnumerable<Unit> GetUnits(string[] ids)
     {
         foreach (var id in ids)
@@ -37,6 +42,9 @@ public class GameData
             case PlayerCommand.MoveArmy move:
                 Move(move);
                 break;
+            case PlayerCommand.EndTurn endTurn:
+                EndTurn(endTurn);
+                break;
 
             default:
                 throw new NotImplementedException($"{command.GetType()}");
@@ -51,18 +59,33 @@ public class GameData
         if (unitsMoved.Any(_ => _.MovesLeft < 0))
             return;
 
-        Units.RemoveAll(_ => move.UnitIds.Contains(_.Id));
-        Units.AddRange(unitsMoved);
+        UpdateUnits(unitsMoved);
 
         UnitsOnMap[move.To] = move.UnitIds;
         if (unitsLeft.Length == 0)
             UnitsOnMap.Remove(move.From);
         else
             UnitsOnMap[move.From] = unitsLeft;
+            
         SomethingHappened(new GameUpdate.MoveArmy(move.From, move.To, GetUnits(unitsLeft).ToArray(), unitsMoved));
         return;
     }
 
+    private void EndTurn(PlayerCommand.EndTurn endTurn)
+    {
+        if (Players.Length > 0)
+        {
+            currentPlayerIndex = (currentPlayerIndex + 1) % Players.Length;
+            var unitsToUpdate = Units.Where(_ => _.PlayerId == CurrentPlayer).ToArray();
+            UpdateUnits(unitsToUpdate.Select(_ => _.NewTurn()).ToArray());
+        }
+    }
+    private void UpdateUnits(Unit[] units)
+    {
+        var unitsHash = units.Select(_ => _.Id).ToHashSet();
+        Units.RemoveAll(_ => unitsHash.Contains(_.Id));
+        Units.AddRange(units);
+    }
 }
 
 public record City(string Name, int Row, int Column);    // units to produce, row, column, defense etc.
@@ -103,6 +126,11 @@ public record Unit(string Id, int MovesMaximum, int MovesLeft, string PlayerId, 
             return this with { MovesLeft = MovesLeft - costs };
         else
             return this with { MovesLeft = -1 };
+    }
+
+    public Unit NewTurn()
+    {
+        return this with { MovesLeft = MovesMaximum };
     }
 
     // city / player

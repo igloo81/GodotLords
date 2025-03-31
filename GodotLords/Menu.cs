@@ -60,6 +60,8 @@ public partial class Menu : Control
                         { new Vector2I(12, 10), new string[] { "2nd unit", "3rd unit" }}
                     };
 
+        var players = new string[] { "joost"};
+
         AddOneOfEachUnitType(units, unitsOnMap);
 
         var gameData = new GameData()
@@ -67,7 +69,8 @@ public partial class Menu : Control
             Map = map,
             Units = units,
             UnitsOnMap = unitsOnMap,
-            Cities = new List<City> { new City("test city", 10, 10) }
+            Cities = new List<City> { new City("test city", 10, 10) },
+            Players = players
         };
         return gameData;
     }
